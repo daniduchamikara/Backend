@@ -1,10 +1,14 @@
 import React, { useEffect, useState } from 'react'
 import { NavLink, useParams, useNavigate } from 'react-router-dom';
 
+
 export default function InsertProduct() {
     const [productName, setProductName] = useState("");
     const [productPrice, setProductPrice] = useState();
     const [productBarcode, setProductBarcode] = useState();
+    const [productQty, setProductQty] = useState();
+    const [ReOrderLevel, setReOrderLvl] = useState();
+    const [purchaseDate, setPurchaseDate] = useState();
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState("");
     const navigate = useNavigate("");
@@ -21,6 +25,16 @@ export default function InsertProduct() {
         const value = e.target.value.slice(0, 12);
         setProductBarcode(value);
     };
+    const setOrderLvl = (e) => {
+        setReOrderLvl(e.target.value);
+    }
+    const setDate = (e) => {
+        setPurchaseDate(e.target.value);
+    };
+
+    const setQty = (e) => {
+        setProductQty(e.target.value);
+    }
 
     const {id} = useParams("");
 
@@ -39,8 +53,12 @@ export default function InsertProduct() {
             if (res.status === 201) {
               console.log("Data Retrieved.");
               setProductName(data.ProductName);
+              setReOrderLvl(data.ReOrderLevel);
               setProductPrice(data.ProductPrice);
               setProductBarcode(data.ProductBarcode);
+              setProductQty(data.ProductQty);
+              setPurchaseDate(data.PurchaseDate);
+
             } else {
               console.log("Something went wrong. Please try again.");
             }
@@ -55,7 +73,7 @@ export default function InsertProduct() {
     const updateProduct = async (e) => {
         e.preventDefault();
 
-        if (!productName || !productPrice || !productBarcode) {
+        if (!productName || !productPrice || !productBarcode || !productQty) {
             setError("*Please fill in all the required fields.");
             return;
         }
@@ -69,7 +87,8 @@ export default function InsertProduct() {
                 headers: {
                     "Content-Type": "application/json"
                 },
-                body: JSON.stringify({ "ProductName": productName, "ProductPrice": productPrice, "ProductBarcode": productBarcode })
+                body: JSON.stringify({ "ProductName": productName, "ProductPrice": productPrice, "ProductBarcode": productBarcode, "ProductQty": productQty,
+                    "PurchaseDate": purchaseDate, "ReOrderLevel": ReOrderLevel })
             });
 
             await response.json();
@@ -89,6 +108,7 @@ export default function InsertProduct() {
         }
     }
 
+
     return (
         <div className='container-fluid p-5'>
             <h1 className=''>Enter Product Information</h1>
@@ -99,6 +119,19 @@ export default function InsertProduct() {
             <div className="mt-3 col-lg-6 col-md-6 col-12">
                 <label htmlFor="product_price" className="form-label fs-4 fw-bold">Product Price</label>
                 <input type="number" onChange={setPrice} value={productPrice} className="form-control fs-5" id="product_price" placeholder="Enter Product Price" required />
+            </div>
+            <div className="mt-3 col-lg-6 col-md-6 col-12 fs-4">
+                <label htmlFor="product_quantity" className="form-label fw-bold">Product Quantity</label>
+                <input type="number" onChange={setQty} value={productQty} className="form-control fs-5" id="product_qty" placeholder="Enter Product Quantity" required />
+            </div>
+            <div  className="mt-3 col-lg-6 col-md-6 col-12 fs-4">
+                <label htmlFor="product_detail" className="form-label fw-bold">Product Detail</label>
+                <div class="column">
+                <input type="number" onChange={setDate} value={purchaseDate} className="form-control fs-5" id="product_PD" placeholder="Enter Product Quantity" required />
+                </div>
+                <div class="column">
+                <input type="number" onChange={setOrderLvl} value={ReOrderLevel} className="form-control fs-5" id="product_ReOrderLvl" placeholder="Enter Re Order Level" required />
+                </div>
             </div>
             <div className="mt-3 mb-5 col-lg-6 col-md-6 col-12">
                 <label htmlFor="product_barcode" className="form-label fs-4 fw-bold">Product Barcode</label>

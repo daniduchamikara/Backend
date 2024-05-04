@@ -5,6 +5,9 @@ export default function InsertProduct() {
     const [productName, setProductName] = useState("");
     const [productPrice, setProductPrice] = useState();
     const [productBarcode, setProductBarcode] = useState();
+    const [productQty, setProductQty] = useState();
+    const [reOrderLvl, setreOrderLvl] = useState();
+    const [purchaseDate, setpurchaseDate] = useState();
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState("");
     const navigate = useNavigate("");
@@ -20,12 +23,27 @@ export default function InsertProduct() {
     const setBarcode = (e) => {
         const value = e.target.value.slice(0, 12);
         setProductBarcode(value);
-    };
+    }
+
+    const setQty = (e) => {
+            setProductQty(e.target.value);
+        }
+
+    const setReOrderLvl = (e) => {
+        setreOrderLvl(e.target.value);
+        console.log(e.target.value)
+    }
+    const setPurchaseDate = (e) => {
+            setpurchaseDate(e.target.value);
+        }
+
+
+    ;
 
     const addProduct = async (e) => {
         e.preventDefault();
 
-        if (!productName || !productPrice || !productBarcode) {
+        if (!productName || !productPrice || !productBarcode || !productQty) {
             setError("*Please fill in all the required fields.");
             return;
         }
@@ -39,7 +57,8 @@ export default function InsertProduct() {
                 headers: {
                     "Content-Type": "application/json"
                 },
-                body: JSON.stringify({ "ProductName": productName, "ProductPrice": productPrice, "ProductBarcode": productBarcode })
+                body: JSON.stringify({ "ProductName": productName, "ProductPrice": productPrice, "ProductBarcode": productBarcode,
+                    "ProductQty": productQty, "PurchaseDate": purchaseDate, "ReOrderLevel": reOrderLvl})
             });
 
             await res.json();
@@ -49,6 +68,9 @@ export default function InsertProduct() {
                 setProductName("");
                 setProductPrice(0);
                 setProductBarcode(0);
+                setProductQty(0);
+                setreOrderLvl(0);
+                setpurchaseDate(0)
                 navigate('/products');
             }
             else if (res.status === 422) {
@@ -76,6 +98,15 @@ export default function InsertProduct() {
             <div className="mt-3 col-lg-6 col-md-6 col-12 fs-4">
                 <label htmlFor="product_price" className="form-label fw-bold">Product Price</label>
                 <input type="number" onChange={setPrice} value={productPrice} className="form-control fs-5" id="product_price" placeholder="Enter Product Price" required />
+            </div>
+            <div className="mt-3 col-lg-6 col-md-6 col-12 fs-4">
+                <label htmlFor="product_quantity" className="form-label fw-bold">Product Quantity</label>
+                <input type="number" onChange={setQty} value={productQty} className="form-control fs-5" id="product_price" placeholder="Enter Product Quantity" required />
+            </div>
+            <div className="mt-3 col-lg-6 col-md-6 col-12 fs-4">
+                <label htmlFor="product_quantity" className="form-label fw-bold">Product Detail</label>
+                <input type="number" onChange={setPurchaseDate} value={purchaseDate} className="form-control fs-5" id="product_purchaseDate" placeholder="Enter Purchase Date"  />
+                <input type="number" onChange={setReOrderLvl} value={reOrderLvl} className="form-control fs-5" id="product_re_lavel" placeholder="Enter Re Order Lavel"  />
             </div>
             <div className="mt-3 mb-5 col-lg-6 col-md-6 col-12 fs-4">
                 <label htmlFor="product_barcode" className="form-label fw-bold">Product Barcode</label>

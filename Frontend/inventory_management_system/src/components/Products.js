@@ -70,6 +70,7 @@ export default function Products() {
                                 <th scope="col">#</th>
                                 <th scope="col">Product Name</th>
                                 <th scope="col">Product Price</th>
+                                <th scope="col">Product Qty</th>
                                 <th scope="col">Product Barcode</th>
                                 <th scope="col">Update</th>
                                 <th scope="col">Delete</th>
@@ -85,6 +86,7 @@ export default function Products() {
                                                 <th scope="row">{id + 1}</th>
                                                 <td>{element.ProductName}</td>
                                                 <td>{element.ProductPrice}</td>
+                                                <td>{element.ProductQty}</td>
                                                 <td>{element.ProductBarcode}</td>
 
                                                 <td><NavLink to={`/updateproduct/${element._id}`} className="btn btn-primary"><i className="fa-solid fa-pen-to-square"></i></NavLink></td>

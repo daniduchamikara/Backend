@@ -13,6 +13,18 @@ const ProductSchema = new mongoose.Schema(
             type: Number,
             required: true,
         },
+        ProductQty: {
+            type: Number,
+            required: false,
+        },
+        ReOrderLevel: {
+            type: Number,
+            required: false,
+        },
+        PurchaseDate: {
+            type: Number,
+            required: false,
+        },
     });
 
 const Products = mongoose.model("Products", ProductSchema)
