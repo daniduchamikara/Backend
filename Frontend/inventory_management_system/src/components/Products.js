@@ -67,12 +67,13 @@ export default function Products() {
         }).then((result) => {
             if (result.isConfirmed) {
                 deleteProduct(_id)
+
+                Swal.fire({
+                    title: "Deleted!",
+                    text: "Your file has been deleted.",
+                    icon: "success"
+                });
             }
-            Swal.fire({
-                title: "Deleted!",
-                text: "Your file has been deleted.",
-                icon: "success"
-            });
 
         });
     }
