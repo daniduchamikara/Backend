@@ -147,10 +147,7 @@ export default function InsertProduct() {
                 <label htmlFor="product_barcode" className="form-label fs-4 fw-bold">Product Barcode</label>
                 <input type="number" onChange={setBarcode} value={productBarcode} maxLength={12} className="form-control fs-5" id="product_barcode" placeholder="Enter Product Barcode" disabled />
             </div>
-            <div className='d-flex justify-content-center col-lg-6 col-md-6'>
-                <NavLink to="/products" className='btn btn-primary me-5 fs-4'>Cancel</NavLink>
-                <button type="submit" onClick={updateProduct} className="btn btn-primary fs-4" disabled={loading}>{loading ? 'Updating...' : 'Update'}</button>
-            </div>
+
             <div className="col text-center col-lg-6 ">
                 {error && <div className="text-danger mt-3 fs-5 fw-bold">{error}</div>}
             </div>
