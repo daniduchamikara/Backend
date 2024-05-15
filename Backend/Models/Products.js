@@ -17,7 +17,7 @@ const ProductSchema = new mongoose.Schema(
             type: Number,
             required: false,
         },
-        ReOrderLevel: {
+        ReorderLevel: {
             type: Number,
             required: false,
         },

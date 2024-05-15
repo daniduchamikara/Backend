@@ -72,8 +72,10 @@ export default function Products() {
                                 <th scope="col">Product Price</th>
                                 <th scope="col">Product Qty</th>
                                 <th scope="col">Product Barcode</th>
+                                <th scope="col">View</th>
                                 <th scope="col">Update</th>
                                 <th scope="col">Delete</th>
+
                             </tr>
                         </thead>
                         <tbody>
@@ -89,6 +91,7 @@ export default function Products() {
                                                 <td>{element.ProductQty}</td>
                                                 <td>{element.ProductBarcode}</td>
 
+                                                <td><NavLink to={`/viewProduct/${element._id}`} className="btn btn-success"><i className="fa-solid fa-bars"></i></NavLink></td>
                                                 <td><NavLink to={`/updateproduct/${element._id}`} className="btn btn-primary"><i className="fa-solid fa-pen-to-square"></i></NavLink></td>
                                                 <td><button className="btn btn-danger" onClick={() => deleteProduct(element._id)}><i class="fa-solid fa-trash"></i></button></td>
 

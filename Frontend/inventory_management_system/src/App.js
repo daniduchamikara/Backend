@@ -4,6 +4,7 @@ import Navbar from './components/Navbar';
 import Products from './components/Products';
 import InsertProduct from './components/InsertProduct'
 import UpdateProduct from './components/UpdateProduct';
+import ViewProduct from './components/ViewProduct';
 import About from './components/About';
 
 import {
@@ -11,8 +12,6 @@ import {
   Routes,
   Route
 } from 'react-router-dom';
-
-
 
 
 function App() {
@@ -26,6 +25,7 @@ function App() {
           <Route path="/products" element={<Products />} />
           <Route path="/insertproduct" element={<InsertProduct />} />
           <Route path="/updateproduct/:id" element={<UpdateProduct />} />
+          <Route path="/viewProduct/:id" element={<ViewProduct />} />
           <Route path="/about" element={<About />} />
 
         </Routes>

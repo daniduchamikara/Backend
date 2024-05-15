@@ -1,11 +1,12 @@
 import React, { useState } from 'react'
 import { NavLink, useNavigate } from 'react-router-dom';
+import Swal from "sweetalert2";
 
 export default function InsertProduct() {
     const [productName, setProductName] = useState("");
     const [productPrice, setProductPrice] = useState();
     const [productBarcode, setProductBarcode] = useState();
-    const [productQty, setProductQty] = useState();
+    const [ProductQty, setProductQty] = useState();
     const [reOrderLvl, setreOrderLvl] = useState();
     const [purchaseDate, setpurchaseDate] = useState();
     const [loading, setLoading] = useState(false);
@@ -43,14 +44,13 @@ export default function InsertProduct() {
     const addProduct = async (e) => {
         e.preventDefault();
 
-        if (!productName || !productPrice || !productBarcode || !productQty) {
+        if (!productName || !productPrice || !productBarcode || !ProductQty) {
             setError("*Please fill in all the required fields.");
             return;
         }
 
         setLoading(true);
         setError("");
-
         try {
             const res = await fetch("http://localhost:3001/insertproduct", {
                 method: "POST",
@@ -58,13 +58,19 @@ export default function InsertProduct() {
                     "Content-Type": "application/json"
                 },
                 body: JSON.stringify({ "ProductName": productName, "ProductPrice": productPrice, "ProductBarcode": productBarcode,
-                    "ProductQty": productQty, "PurchaseDate": purchaseDate, "ReOrderLevel": reOrderLvl})
+                    "ProductQty": ProductQty, "PurchaseDate": purchaseDate, "ReorderLevel": reOrderLvl})
             });
 
             await res.json();
 
             if (res.status === 201) {
-                alert("Data Inserted");
+                Swal.fire({
+                    position: "top-end",
+                    icon: "success",
+                    title: "Item Added Success",
+                    showConfirmButton: false,
+                    timer: 3000
+                });
                 setProductName("");
                 setProductPrice(0);
                 setProductBarcode(0);
@@ -101,11 +107,14 @@ export default function InsertProduct() {
             </div>
             <div className="mt-3 col-lg-6 col-md-6 col-12 fs-4">
                 <label htmlFor="product_quantity" className="form-label fw-bold">Product Quantity</label>
-                <input type="number" onChange={setQty} value={productQty} className="form-control fs-5" id="product_price" placeholder="Enter Product Quantity" required />
+                <input type="number" onChange={setQty} value={ProductQty} className="form-control fs-5" id="product_price" placeholder="Enter Product Quantity" required />
             </div>
             <div className="mt-3 col-lg-6 col-md-6 col-12 fs-4">
-                <label htmlFor="product_quantity" className="form-label fw-bold">Product Detail</label>
+                <label htmlFor="product_quantity" className="form-label fw-bold">Purchase Date</label>
                 <input type="number" onChange={setPurchaseDate} value={purchaseDate} className="form-control fs-5" id="product_purchaseDate" placeholder="Enter Purchase Date"  />
+            </div>
+            <div className="mt-3 mb-5 col-lg-6 col-md-6 col-12 fs-4">
+                <label htmlFor="product_barcode" className="form-label fw-bold">Re Order Level</label>
                 <input type="number" onChange={setReOrderLvl} value={reOrderLvl} className="form-control fs-5" id="product_re_lavel" placeholder="Enter Re Order Lavel"  />
             </div>
             <div className="mt-3 mb-5 col-lg-6 col-md-6 col-12 fs-4">
