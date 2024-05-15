@@ -1,5 +1,6 @@
-import React, { useEffect, useState } from 'react'
-import { NavLink } from 'react-router-dom'
+import React, {useEffect, useState} from 'react'
+import {NavLink} from 'react-router-dom'
+import Swal from "sweetalert2";
 
 export default function Products() {
 
@@ -24,8 +25,7 @@ export default function Products() {
             if (res.status === 201) {
                 console.log("Data Retrieved.");
                 setProductData(data);
-            }
-            else {
+            } else {
                 console.log("Something went wrong. Please try again.");
             }
         } catch (err) {
@@ -54,6 +54,29 @@ export default function Products() {
 
     }
 
+
+    function deleteProductProcess(_id) {
+        Swal.fire({
+            title: "Are you sure?",
+            text: "You won't be able to revert this!",
+            icon: "warning",
+            showCancelButton: true,
+            confirmButtonColor: "#3085d6",
+            cancelButtonColor: "#d33",
+            confirmButtonText: "Yes, delete it!"
+        }).then((result) => {
+            if (result.isConfirmed) {
+                deleteProduct(_id)
+            }
+            Swal.fire({
+                title: "Deleted!",
+                text: "Your file has been deleted.",
+                icon: "success"
+            });
+
+        });
+    }
+
     return (
         <>
 
@@ -63,43 +86,50 @@ export default function Products() {
                 <div className='add_button'>
                     <NavLink to="/insertproduct" className='btn btn-primary fs-5'> + Add New Product</NavLink>
                 </div>
-                <div className="overflow-auto mt-3" style={{ maxHeight: "38rem" }}>
+                <div className="overflow-auto mt-3" style={{maxHeight: "38rem"}}>
                     <table className="table table-striped table-hover mt-3 fs-5">
                         <thead>
-                            <tr className="tr_color">
-                                <th scope="col">#</th>
-                                <th scope="col">Product Name</th>
-                                <th scope="col">Product Price</th>
-                                <th scope="col">Product Qty</th>
-                                <th scope="col">Product Barcode</th>
-                                <th scope="col">View</th>
-                                <th scope="col">Update</th>
-                                <th scope="col">Delete</th>
+                        <tr className="tr_color">
+                            <th scope="col">#</th>
+                            <th scope="col">Product Name</th>
+                            <th scope="col">Product Price</th>
+                            <th scope="col">Product Qty</th>
+                            <th scope="col">Product Barcode</th>
+                            <th scope="col">View</th>
+                            <th scope="col">Update</th>
+                            <th scope="col">Delete</th>
 
-                            </tr>
+                        </tr>
                         </thead>
                         <tbody>
 
-                            {
-                                productData.map((element, id) => {
-                                    return (
-                                        <>
-                                            <tr>
-                                                <th scope="row">{id + 1}</th>
-                                                <td>{element.ProductName}</td>
-                                                <td>{element.ProductPrice}</td>
-                                                <td>{element.ProductQty}</td>
-                                                <td>{element.ProductBarcode}</td>
+                        {
+                            productData.map((element, id) => {
+                                return (
+                                    <>
+                                        <tr>
+                                            <th scope="row">{id + 1}</th>
+                                            <td>{element.ProductName}</td>
+                                            <td>{element.ProductPrice}</td>
+                                            <td>{element.ProductQty}</td>
+                                            <td>{element.ProductBarcode}</td>
 
-                                                <td><NavLink to={`/viewProduct/${element._id}`} className="btn btn-success"><i className="fa-solid fa-bars"></i></NavLink></td>
-                                                <td><NavLink to={`/updateproduct/${element._id}`} className="btn btn-primary"><i className="fa-solid fa-pen-to-square"></i></NavLink></td>
-                                                <td><button className="btn btn-danger" onClick={() => deleteProduct(element._id)}><i class="fa-solid fa-trash"></i></button></td>
+                                            <td><NavLink to={`/viewProduct/${element._id}`} className="btn btn-success"><i
+                                                className="fa-solid fa-bars"></i></NavLink></td>
+                                            <td><NavLink to={`/updateproduct/${element._id}`}
+                                                         className="btn btn-primary"><i
+                                                className="fa-solid fa-pen-to-square"></i></NavLink></td>
+                                            <td>
+                                                <button className="btn btn-danger"
+                                                        onClick={() => deleteProductProcess(element._id)}><i
+                                                    class="fa-solid fa-trash"></i></button>
+                                            </td>
 
-                                            </tr>
-                                        </>
-                                    )
-                                })
-                            }
+                                        </tr>
+                                    </>
+                                )
+                            })
+                        }
 
                         </tbody>
                     </table>
